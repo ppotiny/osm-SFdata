@@ -46,9 +46,33 @@ def top_percent(k):
 
     # Here, I get a percentage by dividing the value's count with v_count and multiplying by 100.
     # The result is formatted to 2 decimal places
-    for c in cur:
-            print c[0], "|", "{0:.2f}".format((c[1]*100.0)/v_count[0])+'%'
 
+    for c in cur:
+            print "{0:.2f}".format((c[1]*100.0)/v_count[0])+'%', "|", c[0]
+
+
+
+def overview_stats():
+     # Overview Statistics
+    print "The size of the file is: 400.722 MB",
+
+    cur.execute("SELECT COUNT(*) FROM nodes")
+    print "\nThere are ", [c[0] for c in cur][0], " unique users,"
+
+    cur.execute("SELECT COUNT(*) FROM ways")
+    print "nodes and ", [c[0] for c in cur][0], " ways in this file."
+
+    print "\nHere are the top 10 keys for nodes:\n"
+    top_k(10)
+
+    print "\nHere are the top 10 keys for ways:\n"
+    cur.execute("""SELECT k, COUNT(*) FROM ways_tags
+    GROUP BY k ORDER BY COUNT(*) DESC LIMIT 10""")
+    for c in cur:
+        print c
+
+    print "\nTop cities in this file\n"
+    top_percent('addr:city')
 
 
 if __name__ == '__main__':
@@ -59,28 +83,8 @@ if __name__ == '__main__':
     cur = db.cursor()
     print "Loading database into cursor \n"
 
-    # Overview Statistics
-    print "The size of the file is: 400.722 MB",
+    for c in cur: print c
 
-    cur.execute("SELECT COUNT(*) FROM nodes")
-    print "There are ", [c[0] for c in cur][0], " unique users,"
-
-    cur.execute("SELECT COUNT(*) FROM ways")
-    print "nodes and ", [c[0] for c in cur][0], " ways in this file."
-
-    print "\nHere are the top 5 keys for nodes:\n"
-    top_k(10)
-
-    print "\nHere are the top 5 keys for ways:\n"
-    cur.execute("""SELECT k, COUNT(*) FROM ways_tags
-    GROUP BY k ORDER BY COUNT(*) DESC LIMIT 10""")
-    for c in cur:
-        print c
-
-    print "\n"
-    print "Top cities in this file"
-    top_percent('addr:city')
-
-
+    #overview_stats()
 
     print '\nSuccess!'
