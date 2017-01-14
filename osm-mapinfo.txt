@@ -1,0 +1,11 @@
+Open Street Map (San Francisco, CA)
+
+This is the link:
+https://mapzen.com/data/metro-extracts/metro/san-francisco_california/
+
+
+The region I will be discussing is called San Francisco, but contains various cities in the east, west and north bay as well.
+
+I originally chose this map thinking that it was only San Francisco, CA. I chose it because it's a popular tourist spot, it's very close to my hometown, 
+and I go there to visit friends once in a while. Even though the map region ended up covering more than San Francisco, I decided that it was a good choice 
+because it covered a good portion of the bay area but did not touch the region that I was most familiar with.
