@@ -10,7 +10,7 @@ DATABASE = sqlite3.connect("SanFranciscoOSM.db")
 MAP_IMG = 'sfmap.png'
 
 
-def scatter_map(db, map_img):
+def scatter_map(db, map_img, title):
     # Average longitude and latitude for each city
     lonlat_df = pd.read_sql("""SELECT AVG(lon) as lon, AVG(lat) as lat, v as city FROM
                 (SELECT lon, lat, k, v FROM nodes_tags
@@ -35,6 +35,7 @@ def scatter_map(db, map_img):
     # Create a scatterplot where circle size reflects the number of records per city
     ax2 = f.add_subplot(111)
     ax2.scatter(city_count['lon'], city_count['lat'], city_count['count'], color='m', alpha=0.3)
+    ax2.set_title(title, fontsize=16)
 
     # Load the map with the longitude and latitude as the x and y axes respectively
     ax = f.add_subplot(111)
@@ -42,3 +43,27 @@ def scatter_map(db, map_img):
     ax.grid(False)
 
     plt.show()
+
+
+def value_pies(values, labels, title):
+    """Creates pie chart based on values"""
+    if len(values) != len(labels):
+        print 'ERROR: Lengths do not match'
+    else:
+        plt.figure(figsize=(7, 7))
+
+        # Creates the pie chart with a shadow and a percentage at the wedges
+        x, plabels, autotexts = plt.pie(x=values, labels=labels, autopct='%1.1f%%',shadow=True)
+
+        #  Each label has a font size of 14
+        for label in plabels:
+            label.set_fontsize(14)
+
+        # Each percentage has a font size of 14 and is colored white
+        for autotext in autotexts:
+            autotext.set_color('white')
+            autotext.set_fontsize(14)
+
+        plt.title(title, fontsize=20)
+
+        plt.show()
